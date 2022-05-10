@@ -6,6 +6,7 @@ from django.urls import reverse
 User = get_user_model()
 from django import template
 register = template.Library() #customized template tag \
+from django.db import IntegrityError
 
 # Create your models here.
 
@@ -25,13 +26,10 @@ class Group(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('groups:siingle', kwargs = {'slug':self.slug})
+        return reverse('group:single', kwargs = {'slug':self.slug})
 
     class Meta:
         ordering = ['name']
-
-
-
 
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, related_name = 'memberships', on_delete = models.CASCADE)
